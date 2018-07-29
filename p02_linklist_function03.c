@@ -17,15 +17,18 @@ int main() {
 	node *head, *ptr;
 	node input;
 	head = NULL;
-	int value;
+	int value, i;
 	char op;
 	
 	while (1) {
-//		puts("i 新增節點");
-//		puts("l 列印節點");
-//		puts("f 尋找節點");
-//		puts("d 刪除節點");
-//		puts("q 離開");
+		puts("i 新增節點(last)");
+		puts("j 新增節點(first)");
+		puts("m 新增節點(@ pos)");
+		puts("n 新增節點(@n的後面)");
+		puts("l 列印節點");
+		puts("f 尋找節點");
+		puts("d 刪除節點");
+		puts("q 離開");
 		
 		scanf(" %c", &op);
 		
@@ -42,7 +45,11 @@ int main() {
 					}
 					head = insert_node(head, ptr, input);
 				}
-//				printf("insert ok\n");
+				break;
+			case 'j':
+				scanf("%d", &input.data);
+				head = insert_node(head, NULL, input);
+				
 				break;
 			case 'l':
 				ptr = head;
@@ -50,7 +57,34 @@ int main() {
 					printf("%d ", ptr-> data);
 					ptr = ptr -> next;
 				}
-				puts(" ");
+				puts("");
+				break;
+			case 'm':
+				scanf("%d", &value);
+				scanf("%d", &input.data);
+				
+				if (head == NULL || value == 0) {
+					head = insert_node(head, NULL, input);
+				}
+				else {
+					ptr = head;
+					for (i=0; i< value - 1 && ptr->next != NULL; i++) {
+						ptr = ptr->next;
+					}
+					head = insert_node(head, ptr, input);
+				}
+				break;
+			case 'n':
+				scanf("%d", &value);
+				ptr = find_node(head, value);
+				if (ptr != NULL) {
+					printf("found %d\n", ptr -> data);
+					scanf("%d", &input.data);
+					head = insert_node(head, ptr, input);
+				}
+				else {
+					printf("%d not found, can not insert\n", value);
+				}
 				break;
 			case 'f':
 				scanf("%d", &value);
@@ -77,8 +111,8 @@ int main() {
 				return 0;
 				break;
 		}
-//		system("pause");
-//		system("cls");
+		system("pause");
+		system("cls");
 	}
 }
 
