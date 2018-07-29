@@ -7,30 +7,31 @@ struct _node {
 };
 typedef struct _node node;
 
-//node *insert_node (node *head, node *ptr, node data) ;
-//node *delete_node(node * node, node *ptr);
-//node *getnode ();
+node *insert_node (node *head, node *ptr, node data);
+node *delete_node (node * head, node *ptr);
+node *getnode ();
+node *find_node(node *head, int num);
+void freenode (node *p);
 
 int main() {
-	node *head, *ptr, *ptr2;
-	head = NULL;
-	
+	node *head, *ptr;
 	node input;
-	int i, value;
+	head = NULL;
+	int value;
 	char op;
 	
 	while (1) {
 		puts("i 新增節點");
 		puts("l 列印節點");
+		puts("f 尋找節點");
+		puts("d 刪除節點");
 		puts("q 離開");
 		
-		scanf(" %d", &op);
-		scanf("%d", &value);
+		scanf(" %c", &op);
 		
 		switch(op) {
 			case 'i':
 				scanf("%d", &input.data);
-				
 				if (head == NULL) {
 					head = insert_node(head, NULL, input);
 				}
@@ -38,9 +39,10 @@ int main() {
 					ptr = head;
 					while (ptr -> next != NULL) {
 						ptr = ptr -> next;
-						head = insert_node(head, ptr, input);
-					}	
+					}
+					head = insert_node(head, ptr, input);
 				}
+				printf("insert ok\n");
 				break;
 			case 'l':
 				ptr = head;
@@ -48,16 +50,19 @@ int main() {
 					printf("%d", ptr-> data);
 					ptr = ptr -> next;
 				}
+				puts("");
 				break;
 			case 'f':
+				print("find_node");
 				scanf("&d", &value);
 				ptr = find_node(head, value);
 				if (ptr != NULL) {
 					printf("found %d\n", ptr -> data);
 				}
 				else {
-					puts("nout found");
+					printf("nout found\n");
 				}
+				break;
 			case 'd':
 				scanf("&d", &value);
 				ptr = find_node(head, value);
@@ -68,44 +73,19 @@ int main() {
 				else {
 					puts("cannot delete");
 				}
-				
+				break;
 			case 'q':
 				return 0;
 				break;
 		}
-		
-		if (value == -1) {
-			break;
-		}
-
-		if (head == NULL) {	
-			head = (node *)malloc(sizeof(node));
-			head -> next = NULL;
-		}
-		else {
-			head = (node *)malloc(sizeof(node));
-			head -> next = ptr;
-		}
-		head -> data = value;
-		ptr = head;
+		system("pause");
+		system("cls");
 	}
-	
-//	ptr = head;
-//	while (ptr != NULL) {
-//		printf("%d ", ptr -> data);
-//		ptr = ptr -> next;
-//	}
-//	
-//	ptr = head;
-//	while (ptr != NULL) {
-//		ptr2 = ptr -> next;
-//		free(ptr);
-//		ptr = ptr2;
-//	}
-	
-	return 0;
-};
+}
 
+void freenode (node *p) {
+	free(p);
+};
 node *getnode () /* 此函數產生一個新節點 */
 {
 	node *p;
@@ -118,8 +98,21 @@ node *getnode () /* 此函數產生一個新節點 */
 	exit(1);
 	}
 	return(p);
-}
+};
 
+node *find_node(node *head, int num) {
+	node *ptr;
+	ptr = head;
+	while(ptr != NULL) {
+		if (ptr->data == num) {
+			return (ptr);
+		}
+		else {
+			ptr = ptr -> next;
+		}
+	}
+	return (ptr);
+};
 node *insert_node (node *head, node *ptr, node data) {
 	node *new_node;
 	new_node = getnode();
@@ -138,9 +131,10 @@ node *insert_node (node *head, node *ptr, node data) {
 			ptr->next = new_node;
 		}
 	}
-}
+	return(head);
+};
 
-node *delete_node(node * node, node *ptr) {
+node *delete_node(node * head, node *ptr) {
 	node *previous;
 	if (ptr == head) {
 		head = head -> next;
@@ -159,4 +153,4 @@ node *delete_node(node * node, node *ptr) {
 		freenode(ptr);
 		return (head);
 	}
-}
+};

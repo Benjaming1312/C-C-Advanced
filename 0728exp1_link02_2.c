@@ -47,3 +47,23 @@ int main() {
 	return 0;
 };
 
+node *delete_node(node * node, node *ptr) {
+	node *previous;
+	if (ptr == head) {
+		head = head -> next;
+	}
+	else {
+		previous = head;
+		while (previous -> next != ptr) {
+			previous = previous -> next;
+		}
+		if (ptr -> next == NULL) {
+			previous -> next = NULL;
+		}
+		else {
+			previous -> next = ptr ->next;
+		}
+		freenode(ptr);
+		return (head);
+	}
+}
